@@ -27,7 +27,10 @@ namespace SurvivalTools.HarmonyPatches
                     __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
                         modifier.stat.LabelCap,
                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                        //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                        /* 
+                         * So this part I can't figure out, this, modifer.stat 
+                      //  overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                        */
                     reportText: modifier.stat.description,
                     displayPriorityWithinCategory: 99999));
             }
