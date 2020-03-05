@@ -16,13 +16,20 @@ namespace SurvivalTools
             defaultPriority = AlertPriority.High;
         }
 
-        private IEnumerable<Pawn> ToollessWorkers
+        private List<Pawn> culpritsResult = new List<Pawn>();
+        private List<Pawn> ToollessWorkers
         {
             get
             {
-                foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
-                    if (WorkingToolless(pawn))
-                        yield return pawn;
+                culpritsResult.Clear();
+                foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+                {
+                    if (WorkingToolless(item))
+                    {
+                        culpritsResult.Add(item);
+                    }
+                }
+                return culpritsResult;
             }
         }
 
@@ -47,7 +54,7 @@ namespace SurvivalTools
             return GenText.ToCommaList(types).CapitalizeFirst();
         }
 
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             string result = "ColonistNeedsSurvivalToolDesc".Translate() + ":\n";
             foreach (Pawn pawn in ToollessWorkers)

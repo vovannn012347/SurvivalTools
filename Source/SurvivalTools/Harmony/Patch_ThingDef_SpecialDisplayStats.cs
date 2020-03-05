@@ -6,11 +6,11 @@ using UnityEngine;
 using Verse;
 using RimWorld;
 using RimWorld.BaseGen;
-using Harmony;
+using HarmonyLib;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace SurvivalTools.Harmony
+namespace SurvivalTools.HarmonyPatches
 {
 
     [HarmonyPatch(typeof(ThingDef))]
@@ -24,20 +24,23 @@ namespace SurvivalTools.Harmony
             if (req.Thing == null && __instance.IsSurvivalTool(out SurvivalToolProperties tProps))
             {
                 foreach (StatModifier modifier in tProps.baseWorkStatFactors)
-                    __result = __result.Add(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
+                    __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
                         modifier.stat.LabelCap,
                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                        overrideReportText: modifier.stat.description));
+                        //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                    reportText: modifier.stat.description,
+                    displayPriorityWithinCategory: 99999));
             }
 
             // Stuff
             if (__instance.IsStuff && __instance.GetModExtension<StuffPropsTool>() is StuffPropsTool sPropsTool)
             {
                 foreach (StatModifier modifier in sPropsTool.toolStatFactors)
-                    __result = __result.Add(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalToolMaterial,
+                    __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalToolMaterial,
                         modifier.stat.LabelCap,
                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                        overrideReportText: modifier.stat.description));
+                        reportText: modifier.stat.description,
+                        displayPriorityWithinCategory: 99999));
             }
         }
 

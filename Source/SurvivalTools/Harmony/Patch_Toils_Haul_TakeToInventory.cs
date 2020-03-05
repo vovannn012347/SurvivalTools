@@ -7,11 +7,11 @@ using Verse;
 using Verse.AI;
 using RimWorld;
 using RimWorld.BaseGen;
-using Harmony;
+using HarmonyLib;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace SurvivalTools.Harmony
+namespace SurvivalTools.HarmonyPatches
 {
 
     [HarmonyPatch(typeof(Toils_Haul))]

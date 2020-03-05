@@ -80,7 +80,11 @@ namespace SurvivalTools
                 yield return new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
                     modifier.stat.LabelCap,
                     modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                    overrideReportText: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat));
+                    overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                    reportText: modifier.stat.description,
+                    displayPriorityWithinCategory: 99999
+                    );
+
         }
 
         public override void ExposeData()

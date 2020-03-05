@@ -18,13 +18,30 @@ namespace SurvivalTools
             defaultPriority = AlertPriority.Medium;
         }
 
-        private IEnumerable<Pawn> WorkersDamagedTools
+    /*    private IEnumerable<Pawn> WorkersDamagedTools
         {
             get
             {
                 foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
                     if (HasDamagedTools(pawn))
                         yield return pawn;
+            }
+        }
+        */
+        private List<Pawn> culpritsResult = new List<Pawn>();
+        private List<Pawn> WorkersDamagedTools
+        {
+            get
+            {
+                culpritsResult.Clear();
+                foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+                {
+                    if (HasDamagedTools(item))
+                    {
+                        culpritsResult.Add(item);
+                    }
+                }
+                return culpritsResult;
             }
         }
 
@@ -40,7 +57,7 @@ namespace SurvivalTools
             return false;
         }
 
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             string result = "SurvivalToolNeedsReplacingDesc".Translate() + ":\n";
             foreach (Pawn pawn in WorkersDamagedTools)

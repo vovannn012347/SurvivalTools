@@ -15,18 +15,18 @@ namespace SurvivalTools
             Mathf.RoundToInt(GenDate.TicksPerHour * ((SurvivalToolsSettings.hardcoreMode) ? 0.67f : 1f)); // Once per hour of continuous work, or ~40 mins with hardcore
 
         public override bool ShouldShowFor(StatRequest req) =>
-            req.Def.IsSurvivalTool() && SurvivalToolsSettings.ToolDegradation;
+            req.StuffDef.IsSurvivalTool() && SurvivalToolsSettings.ToolDegradation;
 
         public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
         {
             SurvivalTool tool = req.Thing as SurvivalTool;
-            return GetBaseEstimatedLifespan(tool, req.Def);
+            return GetBaseEstimatedLifespan(tool, req.StuffDef); 
         }
 
         public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
         {
             SurvivalTool tool = req.Thing as SurvivalTool;
-            return $"{"StatsReport_BaseValue".Translate()}: {GetBaseEstimatedLifespan(tool, req.Def).ToString("F1")}";
+            return $"{"StatsReport_BaseValue".Translate()}: {GetBaseEstimatedLifespan(tool, req.StuffDef).ToString("F1")}";
         }
 
         private float GetBaseEstimatedLifespan(SurvivalTool tool, BuildableDef def)

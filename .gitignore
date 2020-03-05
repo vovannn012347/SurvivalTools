@@ -3,3 +3,12 @@
 ################################################################################
 
 /Source/SurvivalTools/packages/Lib.Harmony.2.0.0.8
+*.cache
+*.ide-shm
+*.ide-wal
+/.vs
+SurvivalTools.rar
+*.cache
+Source/SurvivalTools/obj/Release/SurvivalTools.pdb
+Source/SurvivalTools/.vs/SurvivalTools/v16/Server/sqlite3/storage.ide
+Source/SurvivalTools/.vs/SurvivalTools/v16/.suo
