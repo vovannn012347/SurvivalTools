@@ -26,7 +26,7 @@ namespace SurvivalTools.HarmonyPatches
             {
                 CodeInstruction instruction = instructionList[i];
 
-                if (instruction.opcode == OpCodes.Ldsfld && instruction.operand == AccessTools.Field(typeof(StatDefOf), nameof(StatDefOf.MiningYield)))
+                if (instruction.opcode == OpCodes.Ldsfld && instruction.operand as FieldInfo == AccessTools.Field(typeof(StatDefOf), nameof(StatDefOf.MiningYield)))
                 {
                     instruction.operand = AccessTools.Field(typeof(ST_StatDefOf), nameof(ST_StatDefOf.MiningYieldDigging));
                 }
