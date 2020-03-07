@@ -15,7 +15,6 @@ namespace SurvivalTools.HarmonyPatches
 
     [HarmonyPatch(typeof(ThingDef))]
     [HarmonyPatch(nameof(ThingDef.SpecialDisplayStats))]
-    //public static class Patch_ThingDef_SpecialDisplayStats
         public static class Patch_ThingDef_SpecialDisplayStats
     {
 
@@ -29,10 +28,10 @@ namespace SurvivalTools.HarmonyPatches
                     __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
                         modifier.stat.LabelCap,
                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                        /* 
-                         * So this part I can't figure out, this, modifer.stat 
-                      //  overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
-                        */
+                    /* 
+                     * So this part I can't figure out, (this, modifer.stat) it Errors out.  
+                     */
+                    //  overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
                     reportText: modifier.stat.description,
                     displayPriorityWithinCategory: 99999));
             }
