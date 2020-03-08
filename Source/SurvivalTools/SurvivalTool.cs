@@ -31,7 +31,7 @@ namespace SurvivalTools
             SurvivalToolUtility.BestSurvivalToolsFor(HoldingPawn).Contains(this);
 
         public int WorkTicksToDegrade =>
-            Mathf.FloorToInt((this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan) * GenDate.TicksPerDay) / MaxHitPoints);
+            Mathf.FloorToInt((this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) * GenDate.TicksPerDay) / MaxHitPoints);
         
         public IEnumerable<StatModifier> WorkStatFactors
         {
@@ -39,7 +39,7 @@ namespace SurvivalTools
             {
                 foreach (StatModifier modifier in def.GetModExtension<SurvivalToolProperties>().baseWorkStatFactors)
                 {
-                    float newFactor = modifier.value * this.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor);
+                    float newFactor = modifier.value * this.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor, false);
 
                     if (Stuff?.GetModExtension<StuffPropsTool>()?.toolStatFactors.NullOrEmpty() == false)
                         foreach (StatModifier modifier2 in Stuff?.GetModExtension<StuffPropsTool>()?.toolStatFactors)
@@ -76,13 +76,28 @@ namespace SurvivalTools
         #region Methods
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
+            Log.Message("When is this called? You must have clicked on the Info Tab on a Tool.", false);
+            /*
+            public StatDrawEntry(StatCategoryDef category,
+            string label,
+            string valueString,
+            string reportText,
+            int displayPriorityWithinCategory,
+            string overrideReportTitle = null,
+            IEnumerable<Dialog_InfoCard.Hyperlink> hyperlinks = null,
+            bool forceUnfinalizedMode = false)
+            */
             foreach (StatModifier modifier in WorkStatFactors)
-                yield return new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
-                    modifier.stat.LabelCap,
-                    modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                    overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
-                    reportText: modifier.stat.description,
-                    displayPriorityWithinCategory: 99999
+                yield return new 
+                    StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool, //calling StatDraw Entry and Category
+                    modifier.stat.LabelCap, //Capatalize the Label?
+                    modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor), //Dunno what this does, I think show the value?
+                    reportText: modifier.stat.description, // Desc of the stat? 
+                    displayPriorityWithinCategory: 99999,  // Priority of the display? 
+                    overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat), //show me somethin.
+                    hyperlinks: null, // ingame hyperlinks in description
+                    forceUnfinalizedMode: false //Dunno what this is, so lets set it to false and find out if it breaks shit. 
+                    
                     );
 
         }

@@ -49,7 +49,7 @@ namespace SurvivalTools
         {
             foreach (SurvivalTool tool in pawn.GetAllUsableSurvivalTools().Where(t => ((SurvivalTool)t).InUse))
             {
-                float toolLifespan = tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan);
+                float toolLifespan = tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false);
                 float hitPointsPercentage = (float)tool.HitPoints / tool.MaxHitPoints;
                 if (toolLifespan * hitPointsPercentage <= DamagedToolRemainingLifespanThreshold)
                     return true;

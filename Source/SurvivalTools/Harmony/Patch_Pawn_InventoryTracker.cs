@@ -53,7 +53,7 @@ namespace SurvivalTools.HarmonyPatches
                 if (SurvivalToolsSettings.toolLimit)
                 {
                     Pawn pawn = __instance.pawn;
-                    if (pawn.CanUseSurvivalTools() && pawn.GetHeldSurvivalTools().Count() > pawn.GetStatValue(ST_StatDefOf.SurvivalToolCarryCapacity) && pawn.CanRemoveExcessSurvivalTools())
+                    if (pawn.CanUseSurvivalTools() && pawn.GetHeldSurvivalTools().Count() > pawn.GetStatValue(ST_StatDefOf.SurvivalToolCarryCapacity, false) && pawn.CanRemoveExcessSurvivalTools())
                     {
                         Thing tool = pawn.GetHeldSurvivalTools().Last();
                         Job job = pawn.DequipAndTryStoreSurvivalTool(tool);

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
+﻿using HarmonyLib;
 using RimWorld;
-using RimWorld.BaseGen;
-using HarmonyLib;
-using System.Reflection;
-using System.Reflection.Emit;
+using System.Collections.Generic;
+using Verse;
 
 namespace SurvivalTools.HarmonyPatches
 {
@@ -24,16 +17,19 @@ namespace SurvivalTools.HarmonyPatches
             if (req.Thing == null && __instance.IsSurvivalTool(out SurvivalToolProperties tProps))
             {
                 foreach (StatModifier modifier in tProps.baseWorkStatFactors)
+                
 
                     __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
                         modifier.stat.LabelCap,
                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
                     /* 
-                     * So this part I can't figure out, (this, modifer.stat) it Errors out.  
+                     * So this part I can't figure out, (this, modifer.stat) it Errors out. Something about not being able to convert from Ienumerable to errr, blah.   
                      */
-                    //  overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                    //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText( , modifier.stat),
+                    //GetSurvivalToolOverrideReportText(this, modifier.stat),
                     reportText: modifier.stat.description,
-                    displayPriorityWithinCategory: 99999));
+                    displayPriorityWithinCategory: 99999)); 
+                
             }
 
             // Stuff

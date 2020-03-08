@@ -50,24 +50,24 @@ namespace SurvivalTools.HarmonyPatches
             // erdelf never fails to impress :)
             #region JobDriver Boilerplate
              harmony.Patch(typeof(RimWorld.JobDriver_PlantWork).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                 /* GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_PlantWork_MakeNewToils)));
             Log.Message("Findme5", false);
             var transpileMineMakeNewToils = new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Mine_MakeNewToils));
             Log.Message("Findme6", false);
             harmony.Patch(typeof(JobDriver_Mine).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: transpileMineMakeNewToils);
             Log.Message("Findme7", false);
             harmony.Patch(typeof(JobDriver_ConstructFinishFrame).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_ConstructFinishFrame_MakeNewToils)));
             Log.Message("Findme8", false);
             harmony.Patch(typeof(JobDriver_Repair).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Repair_MakeNewToils)));
             Log.Message("Findme9", false);
@@ -75,7 +75,7 @@ namespace SurvivalTools.HarmonyPatches
                 new HarmonyMethod(patchType, nameof(Prefix_JobDriver_Deconstruct_TickAction)));
             Log.Message("Findme10", false);
             harmony.Patch(typeof(JobDriver_AffectRoof).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_AffectRoof_MakeNewToils)));
             #endregion
@@ -87,9 +87,9 @@ namespace SurvivalTools.HarmonyPatches
                 Log.Message("Findme11", false);
                 if (maintenanceDriver != null && typeof(JobDriver).IsAssignableFrom(maintenanceDriver))
                 {
-                    harmony.Patch(maintenanceDriver.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).MinBy(x => x.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).Count())
-                            .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
-                            transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Maintenance_MakeNewToils)));
+                harmony.Patch(maintenanceDriver.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).MinBy(x => x.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).Count())
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
+                transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Maintenance_MakeNewToils)));
                 }
                 else
                     Log.Error("Survival Tools - Could not find Fluffy_Breakdowns.JobDriver_Maintenance type to patch");
@@ -148,9 +148,10 @@ namespace SurvivalTools.HarmonyPatches
                 if (prisonLabourMineJobDriver != null)
                 {
                     harmony.Patch(AccessTools.Method(prisonLabourMineJobDriver, "ResetTicksToPickHit"), transpiler: transpileResetTicksToPickHit);
-                    harmony.Patch(prisonLabourMineJobDriver.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).Last()
-                        .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
+                    harmony.Patch(prisonLabourMineJobDriver./*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).Last().*/
+                        GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                         transpiler: transpileMineMakeNewToils);
+                    Log.Message("Prison Labor Patch end thingy", false);
                 }
                     
             }
@@ -212,7 +213,6 @@ namespace SurvivalTools.HarmonyPatches
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_PlantWork_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
-
             var plantHarvestingSpeed = AccessTools.Field(typeof(ST_StatDefOf), nameof(ST_StatDefOf.PlantHarvestingSpeed));
             Log.Message("Findme17", false);
             for (int i = 0; i < instructionList.Count; i++)
@@ -235,6 +235,7 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
+        
         #endregion
 
         #region JobDriver_Mine
@@ -328,6 +329,7 @@ namespace SurvivalTools.HarmonyPatches
         #region Prefix_JobDriver_Deconstruct_TickAction
         public static void Prefix_JobDriver_Deconstruct_TickAction(JobDriver_Deconstruct __instance)
         {
+            Log.Message("Deconstruct tick action, Should we be here?", false);
             SurvivalToolUtility.TryDegradeTool(__instance.pawn, StatDefOf.ConstructionSpeed);
         }
         #endregion
@@ -409,7 +411,7 @@ namespace SurvivalTools.HarmonyPatches
                 SurvivalToolUtility.TryDegradeTool(pawn, ST_StatDefOf.DiggingSpeed);
                 tickAction();
             };
-            __result.defaultDuration = (int)Mathf.Clamp(3000f / pawn.GetStatValue(ST_StatDefOf.DiggingSpeed), 500f, 10000f);
+            __result.defaultDuration = (int)Mathf.Clamp(3000f / pawn.GetStatValue(ST_StatDefOf.DiggingSpeed, false), 500f, 10000f);
         }
         #endregion
 

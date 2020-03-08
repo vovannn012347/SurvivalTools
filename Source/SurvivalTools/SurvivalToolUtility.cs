@@ -46,7 +46,7 @@ namespace SurvivalTools
             (pawn.equipment != null || pawn.inventory != null) && pawn.TraderKind == null;
 
         public static bool IsUnderSurvivalToolCarryLimitFor(this int count, Pawn pawn) =>
-            !SurvivalToolsSettings.toolLimit || count < pawn.GetStatValue(ST_StatDefOf.SurvivalToolCarryCapacity);
+            !SurvivalToolsSettings.toolLimit || count < pawn.GetStatValue(ST_StatDefOf.SurvivalToolCarryCapacity, false);
 
         public static IEnumerable<Thing> GetHeldSurvivalTools(this Pawn pawn) =>
             pawn.inventory?.innerContainer.Where(t => t.def.IsSurvivalTool());
@@ -136,7 +136,11 @@ namespace SurvivalTools
 
             builder.AppendLine();
             builder.AppendLine(ST_StatDefOf.ToolEffectivenessFactor.LabelCap + ": " +
-                tool.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
+                tool.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
+            /* Let's add Estimated LifeSpan to the override report*/
+            builder.AppendLine();
+            builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
+                tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.FloatOne, ToStringNumberSense.Factor));
 
             if (stuffPropsTool != null && stuffPropsTool.toolStatFactors.GetStatFactorFromList(stat) != 1f)
             {
@@ -157,10 +161,15 @@ namespace SurvivalTools
             {
                 LessonAutoActivator.TeachOpportunity(ST_ConceptDefOf.SurvivalToolDegradation, OpportunityType.GoodToKnow);
                 tool.workTicksDone++;
+                Log.Message("WorkTicksDone++" + tool.workTicksDone, false);
                 if (tool.workTicksDone >= tool.WorkTicksToDegrade)
                 {
+                    Log.Message("Spamming Durability Loss", false);
                     tool.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1));
+                    Log.Message("Take 1 damage of durability off tool per tick?", false);
                     tool.workTicksDone = 0;
+                    Log.Message("This should return to something?", false);
+                    
                 }
             }
         }
@@ -177,7 +186,7 @@ namespace SurvivalTools
         public static bool MeetsWorkGiverStatRequirements(this Pawn pawn, List<StatDef> requiredStats)
         {
             foreach (StatDef stat in requiredStats)
-                if (pawn.GetStatValue(stat) <= 0f)
+                if (pawn.GetStatValue(stat, false) <= 0f)
                     return false;
             return true;
         }
