@@ -25,8 +25,8 @@ namespace SurvivalTools.HarmonyPatches
                     /* 
                      * So this part I can't figure out, (this, modifer.stat) it Errors out. Something about not being able to convert from Ienumerable to errr, blah.   
                      */
-                    //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText( , modifier.stat),
-                    //GetSurvivalToolOverrideReportText(this, modifier.stat),
+                    //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat), New, but still broken
+                    //GetSurvivalToolOverrideReportText(this, modifier.stat),   Old
                     reportText: modifier.stat.description,
                     displayPriorityWithinCategory: 99999)); 
                 

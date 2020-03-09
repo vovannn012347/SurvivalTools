@@ -30,8 +30,11 @@ namespace SurvivalTools
             HoldingPawn != null && HoldingPawn.CanUseSurvivalTools() && HoldingPawn.CanUseSurvivalTool(def) &&
             SurvivalToolUtility.BestSurvivalToolsFor(HoldingPawn).Contains(this);
 
-        public int WorkTicksToDegrade =>
-            Mathf.FloorToInt((this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) * GenDate.TicksPerDay) / MaxHitPoints);
+        public int WorkTicksToDegrade => Mathf.FloorToInt(
+                (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan) * GenDate.TicksPerDay) / this.MaxHitPoints);
+                /* (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) //Tool Estimated Lifespan * 
+                * GenDate.TicksPerDay) / MaxHitPoints);*/
+
         
         public IEnumerable<StatModifier> WorkStatFactors
         {
@@ -76,7 +79,6 @@ namespace SurvivalTools
         #region Methods
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
-            Log.Message("When is this called? You must have clicked on the Info Tab on a Tool.", false);
             /*
             public StatDrawEntry(StatCategoryDef category,
             string label,

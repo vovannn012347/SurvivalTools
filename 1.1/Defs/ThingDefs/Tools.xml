@@ -3,9 +3,9 @@
     <ThingDef Name="SurvivalToolBasic" ParentName="BaseSurvivalTool" Abstract="True">
         <techLevel>Neolithic</techLevel>
         <statBases>
-            <WorkToMake>1800</WorkToMake>
+			<WorkToMake>1800</WorkToMake>
         </statBases>
-        <stuffCategories>
+		<stuffCategories>
             <li>Woody</li>
             <li>Stony</li>
             <li>Metallic</li>
@@ -48,14 +48,14 @@
         <defName>SurvivalTools_Axe</defName>
         <label>axe</label>
         <description>Effective at chopping down trees thanks to the head that's attached to its handle. This can also be used as a melee weapon in a pinch.</description>
-        <costStuffCount>40</costStuffCount>
-        <statBases>
-            <Mass>2.5</Mass>
-        </statBases>
         <graphicData>
             <texPath>Things/Item/Equipment/Tool/Axe</texPath>
             <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
+		<costStuffCount>40</costStuffCount>
+        <statBases>
+            <Mass>2.5</Mass>
+        </statBases>
         <modExtensions>
             <li Class="SurvivalTools.SurvivalToolProperties">
                 <baseWorkStatFactors>

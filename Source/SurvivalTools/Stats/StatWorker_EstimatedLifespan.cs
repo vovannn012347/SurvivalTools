@@ -33,17 +33,24 @@ namespace SurvivalTools
         {
             SurvivalToolProperties props = def.GetModExtension<SurvivalToolProperties>() ?? SurvivalToolProperties.defaultValues;
 
-            if (!((ThingDef)def).useHitPoints)
+            if (((ThingDef)def).useHitPoints)
+            {
+              //  Log.Message("Get Estimated Lifespan Positive Infinity crap", false);
                 return float.PositiveInfinity;
-
+            }
             // For def
             if (tool == null)
+            {
+                //Log.Message("Get Estimated Lifespan Tool == null", false);
                 return GenDate.TicksToDays(Mathf.RoundToInt((BaseWearInterval * def.GetStatValueAbstract(StatDefOf.MaxHitPoints)) / props.toolWearFactor));
+            }
 
             // For thing
             StuffPropsTool stuffProps = tool.Stuff?.GetModExtension<StuffPropsTool>() ?? StuffPropsTool.defaultValues;
             float wearFactor = tool.def.GetModExtension<SurvivalToolProperties>().toolWearFactor * (stuffProps.wearFactorMultiplier);
-            return GenDate.TicksToDays(Mathf.RoundToInt((BaseWearInterval * tool.MaxHitPoints) / wearFactor));
+            {
+                return GenDate.TicksToDays(Mathf.RoundToInt((BaseWearInterval * tool.MaxHitPoints) / wearFactor));
+            }
         }
 
         public override void FinalizeValue(StatRequest req, ref float val, bool applyPostProcess)

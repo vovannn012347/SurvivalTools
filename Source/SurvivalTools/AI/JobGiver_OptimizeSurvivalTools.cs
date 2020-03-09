@@ -111,7 +111,7 @@ namespace SurvivalTools
 
             if (tool.def.useHitPoints)
             {
-                float lifespanRemaining = tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) * ((float)tool.HitPoints * tool.MaxHitPoints);
+                float lifespanRemaining = tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, true) * ((float)tool.HitPoints * tool.MaxHitPoints);
                 optimality *= LifespanDaysToOptimalityMultiplierCurve.Evaluate(lifespanRemaining);
             }
             return optimality;

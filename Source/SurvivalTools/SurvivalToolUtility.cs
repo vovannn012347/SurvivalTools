@@ -140,7 +140,7 @@ namespace SurvivalTools
             /* Let's add Estimated LifeSpan to the override report*/
             builder.AppendLine();
             builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
-                tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.FloatOne, ToStringNumberSense.Factor));
+                tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
 
             if (stuffPropsTool != null && stuffPropsTool.toolStatFactors.GetStatFactorFromList(stat) != 1f)
             {
@@ -157,19 +157,14 @@ namespace SurvivalTools
         public static void TryDegradeTool(Pawn pawn, StatDef stat)
         {
             SurvivalTool tool = pawn.GetBestSurvivalTool(stat);
-            if (tool != null && tool.def.useHitPoints && SurvivalToolsSettings.ToolDegradation)
+            if(tool != null && tool.def.useHitPoints && SurvivalToolsSettings.ToolDegradation) // If tool exists, is using hitpoints, and Degradation isn't off. 
             {
                 LessonAutoActivator.TeachOpportunity(ST_ConceptDefOf.SurvivalToolDegradation, OpportunityType.GoodToKnow);
                 tool.workTicksDone++;
-                Log.Message("WorkTicksDone++" + tool.workTicksDone, false);
                 if (tool.workTicksDone >= tool.WorkTicksToDegrade)
                 {
-                    Log.Message("Spamming Durability Loss", false);
                     tool.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1));
-                    Log.Message("Take 1 damage of durability off tool per tick?", false);
                     tool.workTicksDone = 0;
-                    Log.Message("This should return to something?", false);
-                    
                 }
             }
         }
