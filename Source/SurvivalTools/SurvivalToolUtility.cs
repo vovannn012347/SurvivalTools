@@ -209,7 +209,9 @@ namespace SurvivalTools
             List<StatDef> resultList = new List<StatDef>();
             foreach (WorkGiver giver in pawn.AssignedToolRelevantWorkGivers())
                 foreach (StatDef stat in giver.def.GetModExtension<WorkGiverExtension>().requiredStats)
-                    if (!resultList.Contains(stat))
+                    if (!resultList.Contains(StatDef.Named("CarryingCapacity"))) //Elegant fix for Hauling Alert.
+                        continue;
+                    else if (!resultList.Contains(stat))
                         resultList.Add(stat);
             return resultList;
         }

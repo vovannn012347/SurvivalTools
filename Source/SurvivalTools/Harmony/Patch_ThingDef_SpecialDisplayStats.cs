@@ -19,7 +19,11 @@ namespace SurvivalTools.HarmonyPatches
                          modifier.stat.LabelCap,
                          modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
                           reportText: modifier.stat.description,
-                          displayPriorityWithinCategory: 99999));
+                          displayPriorityWithinCategory: 99999,
+                          //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(baseW, modifier.stat),
+                          hyperlinks: null,
+                          forceUnfinalizedMode: false
+                          ));
             }
 
             // Stuff
