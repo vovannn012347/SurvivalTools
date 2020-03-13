@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using RimWorld;
 using System.Text;
 using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class StatWorker_EstimatedLifespan : StatWorker
     {
-
         public static int BaseWearInterval =>
             Mathf.RoundToInt(GenDate.TicksPerHour * ((SurvivalToolsSettings.hardcoreMode) ? 0.67f : 1f)); // Once per hour of continuous work, or ~40 mins with hardcore
 
@@ -20,22 +16,22 @@ namespace SurvivalTools
         public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
         {
             SurvivalTool tool = req.Thing as SurvivalTool;
-            return GetBaseEstimatedLifespan(tool, req.StuffDef); 
+            return GetBaseEstimatedLifespan(tool, req.BuildableDef);
         }
 
         public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
         {
             SurvivalTool tool = req.Thing as SurvivalTool;
-            return $"{"StatsReport_BaseValue".Translate()}: {GetBaseEstimatedLifespan(tool, req.StuffDef).ToString("F1")}";
+            return $"{"StatsReport_BaseValue".Translate()}: {GetBaseEstimatedLifespan(tool, req.BuildableDef).ToString("F1")}";
         }
 
         private float GetBaseEstimatedLifespan(SurvivalTool tool, BuildableDef def)
         {
             SurvivalToolProperties props = def.GetModExtension<SurvivalToolProperties>() ?? SurvivalToolProperties.defaultValues;
 
-            if (((ThingDef)def).useHitPoints)
+            if (!((ThingDef)def).useHitPoints)
             {
-              //  Log.Message("Get Estimated Lifespan Positive Infinity crap", false);
+                //  Log.Message("Get Estimated Lifespan Positive Infinity crap", false);
                 return float.PositiveInfinity;
             }
             // For def
@@ -68,6 +64,5 @@ namespace SurvivalTools
             finalBuilder.AppendLine(base.GetExplanationFinalizePart(req, numberSense, finalVal));
             return finalBuilder.ToString();
         }
-
     }
 }

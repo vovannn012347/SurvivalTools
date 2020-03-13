@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
-using RimWorld;
+﻿using Verse;
 
 namespace SurvivalTools
 {
     public class Pawn_SurvivalToolAssignmentTracker : ThingComp
     {
-
-        Pawn Pawn => (Pawn)parent;
+        private Pawn Pawn => (Pawn)parent;
 
         public SurvivalToolAssignment CurrentSurvivalToolAssignment
         {
@@ -52,6 +45,5 @@ namespace SurvivalTools
         public int nextSurvivalToolOptimizeTick = -99999;
         public SurvivalToolForcedHandler forcedHandler;
         private SurvivalToolAssignment curSurvivalToolAssignment;
-
     }
 }

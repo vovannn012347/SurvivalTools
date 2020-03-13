@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using RimWorld;
-using RimWorld.BaseGen;
-using HarmonyLib;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace SurvivalTools.HarmonyPatches
 {
-
     public static class Patch_Pawn_InventoryTracker
     {
-
         [HarmonyPatch(typeof(Pawn_InventoryTracker), nameof(Pawn_InventoryTracker.FirstUnloadableThing), MethodType.Getter)]
         public static class FirstUnloadableThing
         {
-
             public static void Postfix(Pawn_InventoryTracker __instance, ref ThingCount __result)
             {
                 if (__result.Thing is SurvivalTool tool && tool.InUse)
@@ -41,13 +31,11 @@ namespace SurvivalTools.HarmonyPatches
                         __result = default;
                 }
             }
-
         }
 
         [HarmonyPatch(typeof(Pawn_InventoryTracker), nameof(Pawn_InventoryTracker.InventoryTrackerTickRare))]
         public static class InventoryTrackerTickRare
         {
-
             public static void Postfix(Pawn_InventoryTracker __instance)
             {
                 if (SurvivalToolsSettings.toolLimit)
@@ -61,24 +49,18 @@ namespace SurvivalTools.HarmonyPatches
                     }
                 }
             }
-
         }
 
         [HarmonyPatch(typeof(Pawn_InventoryTracker), nameof(Pawn_InventoryTracker.Notify_ItemRemoved))]
         public static class Notify_ItemRemoved
         {
-
             public static void Postfix(Pawn_InventoryTracker __instance, Thing item)
             {
                 if (item is SurvivalTool && __instance.pawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>() is Pawn_SurvivalToolAssignmentTracker assignmentTracker)
                 {
                     assignmentTracker.forcedHandler.SetForced(item, false);
                 }
-
             }
-
         }
-
     }
-
 }

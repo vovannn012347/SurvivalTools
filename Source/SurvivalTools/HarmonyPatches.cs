@@ -12,18 +12,17 @@ using Verse.AI;
 namespace SurvivalTools.HarmonyPatches
 {
     [StaticConstructorOnStartup]
-    static class HarmonyPatches
+    internal static class HarmonyPatches
     {
-
         private static readonly Type patchType = typeof(HarmonyPatches);
 
         static HarmonyPatches()
         {
             Harmony harmony = new Harmony("jelly.survivaltoolsreborn");
-           // Harmony.DEBUG = true;
+            // Harmony.DEBUG = true;
 
             // Automatic patches
-            harmony.PatchAll(Assembly.GetExecutingAssembly()); 
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             // Manual patches
             // Plants that obstruct construction zones
@@ -35,13 +34,15 @@ namespace SurvivalTools.HarmonyPatches
             harmony.Patch(AccessTools.Method(typeof(JobDriver_Mine), "ResetTicksToPickHit"), transpiler: transpileResetTicksToPickHit);
             // Thanks Mehni!
             if (!ModCompatibilityCheck.OtherInventoryModsActive)
-            harmony.Patch(AccessTools.Method(typeof(FloatMenuMakerMap), "AddHumanlikeOrders"), transpiler: new HarmonyMethod(patchType, nameof(Transpile_FloatMenuMakerMad_AddHumanlikeOrders)));
+                harmony.Patch(AccessTools.Method(typeof(FloatMenuMakerMap), "AddHumanlikeOrders"), transpiler: new HarmonyMethod(patchType, nameof(Transpile_FloatMenuMakerMad_AddHumanlikeOrders)));
             // erdelf never fails to impress :)
+
             #region JobDriver Boilerplate
-             harmony.Patch(typeof(RimWorld.JobDriver_PlantWork).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
-                 /* GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
-                MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
-                transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_PlantWork_MakeNewToils)));
+
+            harmony.Patch(typeof(RimWorld.JobDriver_PlantWork).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
+                /* GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+               MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
+               transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_PlantWork_MakeNewToils)));
             var transpileMineMakeNewToils = new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Mine_MakeNewToils));
             harmony.Patch(typeof(JobDriver_Mine).GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().
                 /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
@@ -61,17 +62,18 @@ namespace SurvivalTools.HarmonyPatches
                 /*GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).First().*/GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                 MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                 transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_AffectRoof_MakeNewToils)));
-            #endregion
+
+            #endregion JobDriver Boilerplate
 
             // Fluffy Breakdowns
-            if (ModCompatibilityCheck.FluffyBreakdowns)  
+            if (ModCompatibilityCheck.FluffyBreakdowns)
             {
                 var maintenanceDriver = GenTypes.GetTypeInAnyAssembly("Fluffy_Breakdowns.JobDriver_Maintenance", null);
                 if (maintenanceDriver != null && typeof(JobDriver).IsAssignableFrom(maintenanceDriver))
                 {
-                harmony.Patch(maintenanceDriver.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).MinBy(x => x.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).Count())
-                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
-                transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Maintenance_MakeNewToils)));
+                    harmony.Patch(maintenanceDriver.GetNestedTypes(BindingFlags.NonPublic | BindingFlags.Instance).MinBy(x => x.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).Count())
+                    .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
+                    transpiler: new HarmonyMethod(patchType, nameof(Transpile_JobDriver_Maintenance_MakeNewToils)));
                 }
                 else
                     Log.Error("Survival Tools - Could not find Fluffy_Breakdowns.JobDriver_Maintenance type to patch");
@@ -130,7 +132,6 @@ namespace SurvivalTools.HarmonyPatches
                         GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).MaxBy(mi => mi.GetMethodBody()?.GetILAsByteArray().Length ?? -1),
                         transpiler: transpileMineMakeNewToils);
                 }
-                    
             }
         }
 
@@ -160,7 +161,7 @@ namespace SurvivalTools.HarmonyPatches
             {
                 CodeInstruction instruction = instructionList[i];
                 if (!patched && (instruction.operand as MethodInfo) == playerHome)
-               // if (!patched && (instruction.operand == playerHome) // CE, Pick Up And Haul etc.
+                // if (!patched && (instruction.operand == playerHome) // CE, Pick Up And Haul etc.
                 //if (instructionList[i + 3].opcode == OpCodes.Callvirt && instruction.operand == playerHome)
                 //if (instructionList[i + 3].operand == playerHome)
                 {
@@ -185,6 +186,7 @@ namespace SurvivalTools.HarmonyPatches
             AccessTools.Method(typeof(SurvivalToolUtility), nameof(SurvivalToolUtility.TryDegradeTool), new[] { typeof(Pawn), typeof(StatDef) });
 
         #region Transpile_JobDriver_PlantWork_MakeNewToils
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_PlantWork_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -209,10 +211,11 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        
-        #endregion
+
+        #endregion Transpile_JobDriver_PlantWork_MakeNewToils
 
         #region JobDriver_Mine
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_Mine_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -249,7 +252,8 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        #endregion
+
+        #endregion JobDriver_Mine
 
         #region Construction JobDrivers
 
@@ -257,6 +261,7 @@ namespace SurvivalTools.HarmonyPatches
             AccessTools.Field(typeof(StatDefOf), nameof(StatDefOf.ConstructionSpeed));
 
         #region Transpile_JobDriver_ConstructFinishFrame_MakeNewToils
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_ConstructFinishFrame_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -276,8 +281,11 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        #endregion
+
+        #endregion Transpile_JobDriver_ConstructFinishFrame_MakeNewToils
+
         #region Transpile_JobDriver_Repair_MakeNewToils
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_Repair_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -297,14 +305,20 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        #endregion
+
+        #endregion Transpile_JobDriver_Repair_MakeNewToils
+
         #region Prefix_JobDriver_Deconstruct_TickAction
+
         public static void Prefix_JobDriver_Deconstruct_TickAction(JobDriver_Deconstruct __instance)
         {
             SurvivalToolUtility.TryDegradeTool(__instance.pawn, StatDefOf.ConstructionSpeed);
         }
-        #endregion
+
+        #endregion Prefix_JobDriver_Deconstruct_TickAction
+
         #region Transpile_JobDriver_AffectRoof_MakeNewToils
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_AffectRoof_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -327,13 +341,15 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        #endregion
 
-        #endregion
+        #endregion Transpile_JobDriver_AffectRoof_MakeNewToils
+
+        #endregion Construction JobDrivers
 
         #region Modded JobDrivers
 
         #region Transpile_JobDriver_Maintenance_MakeNewToils
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_Maintenance_MakeNewToils(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -353,9 +369,11 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-        #endregion
+
+        #endregion Transpile_JobDriver_Maintenance_MakeNewToils
 
         #region Patch JobDriver_MineQuarry
+
         public static IEnumerable<CodeInstruction> Transpile_JobDriver_MineQuarry_ResetTicksToPickHit(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -384,9 +402,11 @@ namespace SurvivalTools.HarmonyPatches
             };
             __result.defaultDuration = (int)Mathf.Clamp(3000f / pawn.GetStatValue(ST_StatDefOf.DiggingSpeed, false), 500f, 10000f);
         }
-        #endregion
+
+        #endregion Patch JobDriver_MineQuarry
 
         #region Postfix_JobDriver_UpgradeTurret_Upgrade
+
         public static void Postfix_JobDriver_UpgradeTurret_Upgrade(JobDriver __instance, Toil __result)
         {
             Action tickAction = __result.tickAction;
@@ -397,11 +417,12 @@ namespace SurvivalTools.HarmonyPatches
                 tickAction();
             };
         }
-        #endregion
 
-        #endregion
+        #endregion Postfix_JobDriver_UpgradeTurret_Upgrade
 
-        #endregion
+        #endregion Modded JobDrivers
+
+        #endregion JobDriver Boilerplate
 
         public static void Postfix_CombatExtended_Utility_HoldTracker_GetExcessThing(ref bool __result, Thing dropThing)
         {
@@ -423,6 +444,5 @@ namespace SurvivalTools.HarmonyPatches
                 }
             }
         }
-
     }
 }

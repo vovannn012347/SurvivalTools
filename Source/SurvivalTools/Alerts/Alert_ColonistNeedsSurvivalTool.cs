@@ -1,22 +1,19 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class Alert_ColonistNeedsSurvivalTool : Alert
     {
-
         public Alert_ColonistNeedsSurvivalTool()
         {
             defaultPriority = AlertPriority.High;
         }
 
         private List<Pawn> culpritsResult = new List<Pawn>();
+
         private List<Pawn> ToollessWorkers
         {
             get

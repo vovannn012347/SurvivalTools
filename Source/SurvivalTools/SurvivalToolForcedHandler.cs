@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class SurvivalToolForcedHandler : IExposable
     {
-
         private List<Thing> forcedTools = new List<Thing>();
 
         public void ExposeData()
@@ -36,7 +30,6 @@ namespace SurvivalTools
                 forcedTools.Add(tool);
             else if (!forced && forcedTools.Contains(tool))
                 forcedTools.Remove(tool);
-                
         }
 
         public bool AllowedToAutomaticallyDrop(Thing tool) => !IsForced(tool);
@@ -46,6 +39,5 @@ namespace SurvivalTools
         public List<Thing> ForcedTools => forcedTools;
 
         public bool SomethingForced => !forcedTools.NullOrEmpty();
-
     }
 }

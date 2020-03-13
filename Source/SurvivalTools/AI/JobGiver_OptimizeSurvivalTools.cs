@@ -1,17 +1,13 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class JobGiver_OptimizeSurvivalTools : ThinkNode_JobGiver
     {
-
         private void SetNextOptimizeTick(Pawn pawn)
         {
             pawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>().nextSurvivalToolOptimizeTick = Find.TickManager.TicksGame + Rand.Range(6000, 9000);
@@ -22,7 +18,6 @@ namespace SurvivalTools
         {
             if (SurvivalToolsSettings.toolOptimization)
             {
- 
                 Pawn_SurvivalToolAssignmentTracker assignmentTracker = pawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>();
 
                 // Pawn can't use tools, lacks a tool assignment tracker or it isn't yet time to re-optimise tools
@@ -96,7 +91,6 @@ namespace SurvivalTools
             }
 
             return null;
-
         }
 
         private static float SurvivalToolScore(Thing toolThing, List<StatDef> workRelevantStats)
@@ -104,7 +98,7 @@ namespace SurvivalTools
             SurvivalTool tool = toolThing as SurvivalTool;
             if (tool == null)
                 return 0f;
-            
+
             float optimality = 0f;
             foreach (StatDef stat in workRelevantStats)
                 optimality += StatUtility.GetStatValueFromList(tool.WorkStatFactors.ToList(), stat, 0f);
@@ -126,6 +120,5 @@ namespace SurvivalTools
             new CurvePoint(4f, 1f),
             new CurvePoint(999f, 10f)
         };
-
     }
 }

@@ -1,17 +1,12 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
-
     public class SurvivalToolAssignmentDatabase : GameComponent
     {
-
         public SurvivalToolAssignmentDatabase(Game game)
         {
         }
@@ -39,7 +34,6 @@ namespace SurvivalTools
 
         public AcceptanceReport TryDelete(SurvivalToolAssignment toolAssignment)
         {
-
             foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
                 if (pawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>()?.CurrentSurvivalToolAssignment == toolAssignment)
                     return new AcceptanceReport("SurvivalToolAssignmentInUse".Translate(pawn));
@@ -54,7 +48,7 @@ namespace SurvivalTools
         public SurvivalToolAssignment MakeNewSurvivalToolAssignment()
         {
             int uniqueId = survivalToolAssignments.Any() ? survivalToolAssignments.Max(a => a.uniqueId) + 1 : 1;
-            SurvivalToolAssignment toolAssignment = new SurvivalToolAssignment(uniqueId , $"{"SurvivalToolAssignment".Translate()} {uniqueId}");
+            SurvivalToolAssignment toolAssignment = new SurvivalToolAssignment(uniqueId, $"{"SurvivalToolAssignment".Translate()} {uniqueId}");
             toolAssignment.filter.SetAllow(ST_ThingCategoryDefOf.SurvivalTools, true);
             survivalToolAssignments.Add(toolAssignment);
             return toolAssignment;
@@ -100,7 +94,5 @@ namespace SurvivalTools
 
         private bool initialized = false;
         private List<SurvivalToolAssignment> survivalToolAssignments = new List<SurvivalToolAssignment>();
-
     }
-
 }

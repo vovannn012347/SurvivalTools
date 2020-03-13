@@ -1,19 +1,15 @@
-﻿using System;
+﻿using RimWorld;
+using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using RimWorld;
-using RimWorld.Planet;
 
 namespace SurvivalTools
 {
-
     public static class SurvivalToolUtility
     {
-
         public static readonly FloatRange MapGenToolHitPointsRange = new FloatRange(0.3f, 0.7f);
         public const float MapGenToolMaxStuffMarketValue = 3f;
 
@@ -138,9 +134,9 @@ namespace SurvivalTools
             builder.AppendLine(ST_StatDefOf.ToolEffectivenessFactor.LabelCap + ": " +
                 tool.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
             /* Let's add Estimated LifeSpan to the override report*/
-            builder.AppendLine();
-            builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
-                tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
+            // builder.AppendLine();
+            // builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
+            //   tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
 
             if (stuffPropsTool != null && stuffPropsTool.toolStatFactors.GetStatFactorFromList(stat) != 1f)
             {
@@ -157,7 +153,7 @@ namespace SurvivalTools
         public static void TryDegradeTool(Pawn pawn, StatDef stat)
         {
             SurvivalTool tool = pawn.GetBestSurvivalTool(stat);
-            if(tool != null && tool.def.useHitPoints && SurvivalToolsSettings.ToolDegradation) // If tool exists, is using hitpoints, and Degradation isn't off. 
+            if (tool != null && tool.def.useHitPoints && SurvivalToolsSettings.ToolDegradation) // If tool exists, is using hitpoints, and Degradation isn't off.
             {
                 LessonAutoActivator.TeachOpportunity(ST_ConceptDefOf.SurvivalToolDegradation, OpportunityType.GoodToKnow);
                 tool.workTicksDone++;
@@ -168,7 +164,7 @@ namespace SurvivalTools
                 }
             }
         }
-            
+
         public static IEnumerable<Thing> GetHeldSurvivalTools(this ThingOwner container) =>
             container?.Where(t => t.def.IsSurvivalTool());
 
@@ -194,7 +190,6 @@ namespace SurvivalTools
                 Log.ErrorOnce($"Tried to get tool-relevant work givers for {pawn} but has null workSettings", 11227);
                 yield break;
             }
-
 
             foreach (WorkGiver giver in pawn.workSettings.WorkGiversInOrderNormal)
             {
@@ -267,6 +262,5 @@ namespace SurvivalTools
                 return false;
             return pawn.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("Washing"));
         }
-
     }
 }

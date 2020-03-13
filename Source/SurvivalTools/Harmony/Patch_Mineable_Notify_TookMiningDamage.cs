@@ -1,23 +1,16 @@
-﻿using System;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
-using RimWorld;
-using RimWorld.BaseGen;
-using HarmonyLib;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace SurvivalTools.HarmonyPatches
 {
-
     [HarmonyPatch(typeof(Mineable))]
     [HarmonyPatch(nameof(Mineable.Notify_TookMiningDamage))]
     public static class Patch_Mineable_Notify_TookMiningDamage
     {
-
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionList = instructions.ToList();
@@ -34,7 +27,5 @@ namespace SurvivalTools.HarmonyPatches
                 yield return instruction;
             }
         }
-
     }
-
 }

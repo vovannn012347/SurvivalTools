@@ -1,19 +1,17 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class SurvivalTool : ThingWithComps
     {
-
         public int workTicksDone = 0;
 
         #region Properties
+
         public Pawn HoldingPawn
         {
             get
@@ -32,10 +30,10 @@ namespace SurvivalTools
 
         public int WorkTicksToDegrade => Mathf.FloorToInt(
                 (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan) * GenDate.TicksPerDay) / this.MaxHitPoints);
-                /* (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) //Tool Estimated Lifespan * 
-                * GenDate.TicksPerDay) / MaxHitPoints);*/
 
-        
+        /* (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) //Tool Estimated Lifespan *
+        * GenDate.TicksPerDay) / MaxHitPoints);*/
+
         public IEnumerable<StatModifier> WorkStatFactors
         {
             get
@@ -74,9 +72,11 @@ namespace SurvivalTools
         //        return label;
         //    }
         //}
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
             /*
@@ -90,18 +90,17 @@ namespace SurvivalTools
             bool forceUnfinalizedMode = false)
             */
             foreach (StatModifier modifier in WorkStatFactors)
-                yield return new 
+                yield return new
                     StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool, //calling StatDraw Entry and Category
                     modifier.stat.LabelCap, //Capatalize the Label?
                     modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor), //Dunno what this does, I think show the value?
-                    reportText: modifier.stat.description, // Desc of the stat? 
-                    displayPriorityWithinCategory: 99999,  // Priority of the display? 
+                    reportText: modifier.stat.description, // Desc of the stat?
+                    displayPriorityWithinCategory: 99999,  // Priority of the display?
                     overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat), //show me somethin.
                     hyperlinks: null, // ingame hyperlinks in description
-                    forceUnfinalizedMode: false //Dunno what this is, so lets set it to false and find out if it breaks shit. 
-                    
-                    );
+                    forceUnfinalizedMode: false //Dunno what this is, so lets set it to false and find out if it breaks shit.
 
+                    );
         }
 
         public override void ExposeData()
@@ -109,7 +108,7 @@ namespace SurvivalTools
             base.ExposeData();
             Scribe_Values.Look(ref workTicksDone, "workTicksDone", 0);
         }
-        #endregion
 
+        #endregion Methods
     }
 }

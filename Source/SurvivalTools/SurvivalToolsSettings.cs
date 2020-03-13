@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SettingsHelper;
 using UnityEngine;
 using Verse;
-using RimWorld;
-using SettingsHelper;
 
 namespace SurvivalTools
 {
     public class SurvivalToolsSettings : ModSettings
     {
-
         public static bool hardcoreMode = false;
         public static bool toolMapGen = true;
         public static bool toolLimit = true;
@@ -46,7 +40,6 @@ namespace SurvivalTools
             options.End();
 
             Mod.GetSettings<SurvivalToolsSettings>().Write();
-
         }
 
         public override void ExposeData()
@@ -57,7 +50,6 @@ namespace SurvivalTools
             Scribe_Values.Look(ref toolDegradationFactor, "toolDegradationFactor", 1f);
             Scribe_Values.Look(ref toolOptimization, "toolOptimization", true);
         }
-
     }
 
     public class SurvivalTools : Mod
@@ -75,7 +67,5 @@ namespace SurvivalTools
         {
             GetSettings<SurvivalToolsSettings>().DoWindowContents(inRect);
         }
-
     }
-
 }

@@ -1,16 +1,13 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public sealed class PawnColumnWorker_SurvivalToolAssignment : PawnColumnWorker
     {
-
         public override void DoHeader(Rect rect, PawnTable table)
         {
             base.DoHeader(rect, table);
@@ -115,6 +112,5 @@ namespace SurvivalTools
             return (pawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>() is Pawn_SurvivalToolAssignmentTracker toolAssignmentTracker && toolAssignmentTracker.CurrentSurvivalToolAssignment != null) ?
                 toolAssignmentTracker.CurrentSurvivalToolAssignment.uniqueId : int.MinValue;
         }
-
     }
 }

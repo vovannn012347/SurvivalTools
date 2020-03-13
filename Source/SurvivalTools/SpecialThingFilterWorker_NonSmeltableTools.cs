@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
-using RimWorld;
+﻿using Verse;
 
 namespace SurvivalTools
 {
     public class SpecialThingFilterWorker_NonSmeltableTools : SpecialThingFilterWorker
     {
-
         public override bool Matches(Thing t)
         {
             return CanEverMatch(t.def) && !t.Smeltable;
@@ -34,6 +27,5 @@ namespace SurvivalTools
         {
             return CanEverMatch(def) && !def.smeltable && !def.MadeFromStuff;
         }
-
     }
 }

@@ -1,23 +1,16 @@
-﻿using System;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
-using RimWorld;
-using RimWorld.BaseGen;
-using HarmonyLib;
-using System.Reflection;
 using System.Reflection.Emit;
+using Verse;
 
 namespace SurvivalTools.HarmonyPatches
 {
-
     [HarmonyPatch(typeof(ITab_Pawn_Gear))]
     [HarmonyPatch("DrawThingRow")]
     public static class Patch_ITab_Pawn_Gear_DrawThingRow
     {
-
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var instructionList = instructions.ToList();
@@ -57,7 +50,5 @@ namespace SurvivalTools.HarmonyPatches
                     originalLabel += $", {"ToolInUse".Translate()}";
             }
         }
-
     }
-
 }

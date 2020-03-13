@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
+﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.BaseGen;
-using HarmonyLib;
-using System.Reflection;
-using System.Reflection.Emit;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Verse;
 
 namespace SurvivalTools.HarmonyPatches
 {
-
     [HarmonyPatch(typeof(SymbolResolver_AncientRuins))]
     [HarmonyPatch(nameof(SymbolResolver_AncientRuins.Resolve))]
     public static class Patch_SymbolResolver_AncientRuins_Resolve
     {
-
         private static readonly SimpleCurve StuffMarketValueRemainderToCommonalityCurve = new SimpleCurve
         {
             new CurvePoint(0f, SurvivalToolUtility.MapGenToolMaxStuffMarketValue * 0.1f),
@@ -63,7 +57,5 @@ namespace SurvivalTools.HarmonyPatches
                 }
             }
         }
-
     }
-
 }

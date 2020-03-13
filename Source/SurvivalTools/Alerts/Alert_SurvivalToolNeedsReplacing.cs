@@ -1,16 +1,12 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class Alert_SurvivalToolNeedsReplacing : Alert
     {
-
         private const float DamagedToolRemainingLifespanThreshold = 0.5f;
 
         public Alert_SurvivalToolNeedsReplacing()
@@ -18,17 +14,18 @@ namespace SurvivalTools
             defaultPriority = AlertPriority.Medium;
         }
 
-    /*    private IEnumerable<Pawn> WorkersDamagedTools
-        {
-            get
+        /*    private IEnumerable<Pawn> WorkersDamagedTools
             {
-                foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
-                    if (HasDamagedTools(pawn))
-                        yield return pawn;
+                get
+                {
+                    foreach (Pawn pawn in PawnsFinder.AllMaps_FreeColonistsSpawned)
+                        if (HasDamagedTools(pawn))
+                            yield return pawn;
+                }
             }
-        }
-        */
+            */
         private List<Pawn> culpritsResult = new List<Pawn>();
+
         private List<Pawn> WorkersDamagedTools
         {
             get

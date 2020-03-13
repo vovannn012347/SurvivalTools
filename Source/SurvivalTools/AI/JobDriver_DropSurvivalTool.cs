@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Verse;
 using Verse.AI;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class JobDriver_DropSurvivalTool : JobDriver
     {
-
         private const int DurationTicks = 30;
-    
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             return true;
@@ -37,6 +31,5 @@ namespace SurvivalTools
                 }
             };
         }
-
     }
 }

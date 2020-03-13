@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using HarmonyLib;
+using System;
 using Verse;
 using Verse.AI;
-using RimWorld;
-using RimWorld.BaseGen;
-using HarmonyLib;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace SurvivalTools.HarmonyPatches
 {
-
     [HarmonyPatch(typeof(Toils_Haul))]
     [HarmonyPatch(nameof(Toils_Haul.TakeToInventory))]
     [HarmonyPatch(new Type[] { typeof(TargetIndex), typeof(Func<int>) })]
     public static class Patch_Toils_Haul_TakeToInventory
     {
-
         public static void Postfix(Toil __result, TargetIndex ind)
         {
             Action initAction = __result.initAction;
@@ -33,7 +23,5 @@ namespace SurvivalTools.HarmonyPatches
                         actor.GetComp<Pawn_SurvivalToolAssignmentTracker>().forcedHandler.SetForced(thing, true);
             };
         }
-
     }
-
 }

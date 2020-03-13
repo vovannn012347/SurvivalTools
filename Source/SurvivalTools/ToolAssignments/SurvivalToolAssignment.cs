@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using Verse;
-using RimWorld;
+﻿using Verse;
 
 namespace SurvivalTools
 {
     public class SurvivalToolAssignment : IExposable, ILoadReferenceable
     {
-
         public SurvivalToolAssignment()
         {
         }
@@ -36,6 +29,5 @@ namespace SurvivalTools
         public int uniqueId;
         public string label;
         public ThingFilter filter = new ThingFilter();
-
     }
 }

@@ -1,16 +1,12 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class Dialog_ManageSurvivalToolAssignments : Window
     {
-
         private Vector2 scrollPosition;
         private static ThingFilter survivalToolGlobalFilter;
         private SurvivalToolAssignment selSurvivalToolAssignmentInt;
@@ -129,6 +125,5 @@ namespace SurvivalTools
             base.PreClose();
             CheckSelectedSurvivalToolAssignmentHasName();
         }
-
     }
 }

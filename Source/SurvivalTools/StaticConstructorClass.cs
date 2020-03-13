@@ -1,18 +1,14 @@
-﻿using System;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
-
     [StaticConstructorOnStartup]
     public static class StaticConstructorClass
     {
-
         static StaticConstructorClass()
         {
             // Add validator to ThingSetMakerDef
@@ -49,7 +45,6 @@ namespace SurvivalTools
                 {
                     recipe.recipeUsers.Clear();
                 }
-
             }
         }
 
@@ -95,7 +90,6 @@ namespace SurvivalTools
                     return retVal;
                 }))
             {
-
                 string newLine = $"{stuff} ({stuff.modContentPack.Name})";
                 if (stuff.HasModExtension<StuffPropsTool>())
                     hasPropsBuilder.AppendLine(newLine);
@@ -106,10 +100,7 @@ namespace SurvivalTools
             stuffBuilder.Append(hasPropsBuilder);
             stuffBuilder.AppendLine();
             stuffBuilder.Append(noPropsBuilder);
-            Log.Message(stuffBuilder.ToString());
+            Log.Message(stuffBuilder.ToString(), false);
         }
-
     }
-
-
 }

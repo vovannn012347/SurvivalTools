@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using RimWorld;
 using Verse;
-using RimWorld;
 
 namespace SurvivalTools
 {
     public class StatPart_SurvivalTool : StatPart
     {
-
         public override string ExplanationPart(StatRequest req)
         {
             // The AI will cheat this system for now until tool generation gets figured out
@@ -40,8 +34,8 @@ namespace SurvivalTools
         private float noToolStatFactor = 0.3f;
 
         private float noToolStatFactorHardcore = -1f;
+
         private float NoToolStatFactorHardcore =>
             (noToolStatFactorHardcore != -1f) ? noToolStatFactorHardcore : noToolStatFactor;
-
     }
 }
