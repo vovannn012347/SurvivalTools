@@ -16,13 +16,13 @@ namespace SurvivalTools.HarmonyPatches
             {
                 foreach (StatModifier modifier in tProps.baseWorkStatFactors)
                     __result = __result.AddItem(new StatDrawEntry(ST_StatCategoryDefOf.SurvivalTool,
-                         modifier.stat.LabelCap,
-                         modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
-                          reportText: modifier.stat.description,
-                          displayPriorityWithinCategory: 99999,
-                          //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(baseW, modifier.stat),
-                          hyperlinks: null,
-                          forceUnfinalizedMode: false
+                    modifier.stat.LabelCap,
+                    modifier.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor),
+                    reportText: modifier.stat.description,
+                    displayPriorityWithinCategory: 99999,
+                    //overrideReportTitle: SurvivalToolUtility.GetSurvivalToolOverrideReportText(this, modifier.stat),
+                    hyperlinks: null,
+                    forceUnfinalizedMode: false
                           ));
             }
 

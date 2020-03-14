@@ -33,8 +33,10 @@ namespace SurvivalTools
         private static bool WorkingToolless(Pawn pawn)
         {
             foreach (StatDef stat in pawn.AssignedToolRelevantWorkGiversStatDefs())
+            {
                 if (!pawn.HasSurvivalToolFor(stat))
                     return true;
+            }
             return false;
         }
 

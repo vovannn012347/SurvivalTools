@@ -31,9 +31,6 @@ namespace SurvivalTools
         public int WorkTicksToDegrade => Mathf.FloorToInt(
                 (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan) * GenDate.TicksPerDay) / this.MaxHitPoints);
 
-        /* (this.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false) //Tool Estimated Lifespan *
-        * GenDate.TicksPerDay) / MaxHitPoints);*/
-
         public IEnumerable<StatModifier> WorkStatFactors
         {
             get
@@ -56,22 +53,22 @@ namespace SurvivalTools
             }
         }
 
-        //public override string LabelNoCount
-        //{
-        //    get
-        //    {
-        //        string label = base.LabelNoCount;
+        public override string LabelNoCount
+        {
+            get
+            {
+                string label = base.LabelNoCount;
 
-        //        if (HoldingPawn != null && HoldingPawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>() is Pawn_SurvivalToolAssignmentTracker tracker &&
-        //            tracker.forcedHandler.IsForced(this))
-        //            label += $", {"ApparelForcedLower".Translate()}";
+                if (HoldingPawn != null && HoldingPawn.TryGetComp<Pawn_SurvivalToolAssignmentTracker>() is Pawn_SurvivalToolAssignmentTracker tracker &&
+                    tracker.forcedHandler.IsForced(this))
+                    label += $", {"ApparelForcedLower".Translate()}";
 
-        //        if (InUse)
-        //            label += $", {"ToolInUse".Translate()}";
+                if (InUse)
+                    label += $", {"ToolInUse".Translate()}";
 
-        //        return label;
-        //    }
-        //}
+                return label;
+            }
+        }
 
         #endregion Properties
 

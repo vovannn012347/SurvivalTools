@@ -134,9 +134,9 @@ namespace SurvivalTools
             builder.AppendLine(ST_StatDefOf.ToolEffectivenessFactor.LabelCap + ": " +
                 tool.GetStatValue(ST_StatDefOf.ToolEffectivenessFactor, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
             /* Let's add Estimated LifeSpan to the override report*/
-            // builder.AppendLine();
-            // builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
-            //   tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
+            builder.AppendLine();
+            builder.AppendLine(ST_StatDefOf.ToolEstimatedLifespan.LabelCap + ": " +
+                tool.GetStatValue(ST_StatDefOf.ToolEstimatedLifespan, false).ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Factor));
 
             if (stuffPropsTool != null && stuffPropsTool.toolStatFactors.GetStatFactorFromList(stat) != 1f)
             {
@@ -198,6 +198,8 @@ namespace SurvivalTools
                     foreach (StatDef stat in extension.requiredStats)
                         if (stat.RequiresSurvivalTool())
                         {
+                            //Log.Message($"Got Stat: {giver} from an extension {extension}", false);
+
                             yield return giver;
                             break;
                         }
@@ -209,10 +211,11 @@ namespace SurvivalTools
             List<StatDef> resultList = new List<StatDef>();
             foreach (WorkGiver giver in pawn.AssignedToolRelevantWorkGivers())
                 foreach (StatDef stat in giver.def.GetModExtension<WorkGiverExtension>().requiredStats)
-                    if (!resultList.Contains(StatDef.Named("CarryingCapacity"))) //Elegant fix for Hauling Alert.
-                        continue;
-                    else if (!resultList.Contains(stat))
+                    if (!resultList.Contains(stat))
+                    {
                         resultList.Add(stat);
+                        //Log.Message($"Got Stat: {giver} with StatDef: {stat}", false);
+                    }
             return resultList;
         }
 
