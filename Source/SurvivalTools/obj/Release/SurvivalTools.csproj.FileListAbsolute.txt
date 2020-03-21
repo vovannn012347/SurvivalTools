@@ -9,3 +9,4 @@ C:\Users\Jelly\Documents\GitHub\SurvivalTools\1.1\Assemblies\SurvivalTools.pdb
 C:\Users\Jelly\Documents\GitHub\SurvivalTools\Source\SurvivalTools\obj\Release\SurvivalTools.csproj.CopyComplete
 C:\Users\Jelly\Documents\GitHub\SurvivalTools\Source\SurvivalTools\obj\Release\SurvivalTools.dll
 C:\Users\Jelly\Documents\GitHub\SurvivalTools\Source\SurvivalTools\obj\Release\SurvivalTools.pdb
+C:\Users\Jelly\Documents\GitHub\SurvivalTools\Source\SurvivalTools\obj\Release\SurvivalTools.csprojAssemblyReference.cache
