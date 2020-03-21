@@ -90,6 +90,7 @@ namespace SurvivalTools
                     return retVal;
                 }))
             {
+                if (stuff.modContentPack == null) continue;
                 string newLine = $"{stuff} ({stuff.modContentPack.Name})";
                 if (stuff.HasModExtension<StuffPropsTool>())
                     hasPropsBuilder.AppendLine(newLine);
