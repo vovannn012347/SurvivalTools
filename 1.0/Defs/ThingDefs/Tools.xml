@@ -102,7 +102,7 @@
         <modExtensions>
             <li Class="SurvivalTools.SurvivalToolProperties">
                 <baseWorkStatFactors>
-                    <DiggingSpeed>0.77</DiggingSpeed>
+                    <DiggingSpeed>0.8</DiggingSpeed>
                     <MiningYieldDigging>1</MiningYieldDigging>
                 </baseWorkStatFactors>
                 <defaultSurvivalToolAssignmentTags>
@@ -146,7 +146,7 @@
         <modExtensions>
             <li Class="SurvivalTools.SurvivalToolProperties">
                 <baseWorkStatFactors>
-                    <ConstructionSpeed>0.7</ConstructionSpeed>
+                    <ConstructionSpeed>0.8</ConstructionSpeed>
                 </baseWorkStatFactors>
                 <defaultSurvivalToolAssignmentTags>
                     <li>Constructor</li>
@@ -189,7 +189,7 @@
         <modExtensions>
             <li Class="SurvivalTools.SurvivalToolProperties">
                 <baseWorkStatFactors>
-                    <PlantHarvestingSpeed>0.69</PlantHarvestingSpeed>
+                    <PlantHarvestingSpeed>0.8</PlantHarvestingSpeed>
                 </baseWorkStatFactors>
                 <defaultSurvivalToolAssignmentTags>
                     <li>PlantWorker</li>
@@ -233,9 +233,6 @@
             <workSkill>Crafting</workSkill>
             <effectWorking>Smith</effectWorking>
             <soundWorking>Recipe_Smith</soundWorking>
-            <recipeUsers>
-                <li>TableMachining</li>
-            </recipeUsers>
             <defaultIngredientFilter>
                 <categories>
                     <li>Root</li>
